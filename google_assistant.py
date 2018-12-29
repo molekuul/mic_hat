@@ -82,6 +82,13 @@ def process_event(event, device_id):
     if event.type == EventType.ON_DEVICE_ACTION:
         for command, params in process_device_actions(event, device_id):
             print('Do command', command, 'with params', str(params))
+            if command == "com.example.commands.Shutters":
+                if params['status'] == "CLOSE":
+                    print('Closing shutters')
+                if params['status'] == "OPEN":
+                    print('Opening shutters')
+
+
 
 
 def register_device(project_id, credentials, device_model_id, device_id):
