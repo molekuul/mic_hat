@@ -1,0 +1,82 @@
+{
+    "manifest": {
+        "displayName": "adjust shutters",
+        "invocationName": "adjust shutters",
+        "category": "PRODUCTIVITY"
+    },
+    "locale": "en",
+    "actions": [
+        {
+            "name": "com.example.actions.Shutters",
+            "availability": {
+                "deviceClasses": [
+                    {
+                        "assistantSdkDevice": {}
+                    }
+                ]
+            },
+            "intent": {
+                "name": "com.example.intents.Shutters",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "type": "Status"
+                    }
+                ],
+                "trigger": {
+                    "queryPatterns": [
+                        "(rolling)? shutter $Status:text (now)?",
+                        "(rolling)? shutters $Status:text (now)?",
+			"$Status:text (rolling)? shutter (now)?",
+			"$Status:text (rolling)? shutters (now)?"
+                    ]
+                }
+            },
+            "fulfillment": {
+                "staticFulfillment": {
+                    "templatedResponse": {
+                        "items": [
+                            {
+                                "simpleResponse": {
+                                    "textToSpeech": "shutters $text . now"
+                                }
+                            },
+                            {
+                                "deviceExecution": {
+                                    "command": "com.example.commands.Shutters",
+                                    "params": {
+                                        "status": "$text"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "types": [
+	    {
+		    "name": "$Status",
+		    "entities": [
+			    {
+				    "key": "OPEN",
+				    "synonyms": [
+					    "open",
+					    "openen",
+					    "omhoog"
+				    ]
+			    },
+			    {
+				    "key": "CLOSE",
+				    "synonyms": [
+					    "close",
+					    "sluit",
+					    "sluiten",
+					    "omlaag"
+				    ]
+			    }
+		    ]
+	    }
+    ]
+}

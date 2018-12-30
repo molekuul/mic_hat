@@ -21,6 +21,7 @@ from __future__ import print_function
 import argparse
 import os.path
 import json
+import requests
 
 import google.auth.transport.requests
 import google.oauth2.credentials
@@ -83,10 +84,24 @@ def process_event(event, device_id):
         for command, params in process_device_actions(event, device_id):
             print('Do command', command, 'with params', str(params))
             if command == "com.example.commands.Shutters":
+                action = ''
+                shutters_url = 'http://10.0.0.31:8181/json.htm'
+                shutters_header = {'Authorization': 'Basic *******************'}
                 if params['status'] == "CLOSE":
                     print('Closing shutters')
+                    action = 'On'
+                    shutters_params = {'type': 'command', 'param': 'switchlight', 'idx': '13', 'switchcmd': action }
+                    r = requests.get(shutters_url, params=shutters_params, headers=shutters_header)
+                    print(r.url)
+                    print(r.status_code)
                 if params['status'] == "OPEN":
                     print('Opening shutters')
+                    action = 'Off'
+                    shutters_params = {'type': 'command', 'param': 'switchlight', 'idx': '13', 'switchcmd': action }
+                    r = requests.get(shutters_url, params=shutters_params, headers=shutters_header)
+                    print(r.url)
+                    print(r.status_code)
+                    print(r.headers)
 
 
 

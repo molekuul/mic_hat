@@ -1,0 +1,81 @@
+{
+    "manifest": {
+        "displayName": "aanpassen rolluik",
+        "invocationName": "aanpassen rolluik",
+        "category": "PRODUCTIVITY"
+    },
+    "locale": "nl",
+    "actions": [
+        {
+            "name": "com.example.actions.Shutters",
+            "availability": {
+                "deviceClasses": [
+                    {
+                        "assistantSdkDevice": {}
+                    }
+                ]
+            },
+            "intent": {
+                "name": "com.example.intents.Shutters",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "type": "Status"
+                    }
+                ],
+                "trigger": {
+                    "queryPatterns": [
+                        "(kun je het )? rolluik (nu)? $Status:text (nu)?",
+			"$Status:text (het)? rolluik (nu)?"
+                    ]
+                }
+            },
+            "fulfillment": {
+                "staticFulfillment": {
+                    "templatedResponse": {
+                        "items": [
+                            {
+                                "simpleResponse": {
+                                    "textToSpeech": "Rolluik $text .nu"
+                                }
+                            },
+                            {
+                                "deviceExecution": {
+                                    "command": "com.example.commands.Shutters",
+                                    "params": {
+                                        "status": "$text"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "types": [
+	    {
+		    "name": "$Status",
+		    "entities": [
+			    {
+				    "key": "OPEN",
+				    "synonyms": [
+					    "open",
+					    "openen",
+					    "omhoog"
+				    ]
+			    },
+			    {
+				    "key": "CLOSE",
+				    "synonyms": [
+					    "close",
+					    "dicht",
+					    "sluit",
+					    "sluiten",
+					    "omlaag"
+				    ]
+			    }
+		    ]
+	    }
+    ]
+}
